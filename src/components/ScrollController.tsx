@@ -22,12 +22,12 @@ export const ScrollController = () => {
   useFrame(() => {
     const progress = scrollProgress.current;
     
-    // Spiral camera rotation around the building
-    const radius = 15 - progress * 5; // Move closer as we scroll
+    // Fixed camera rotation around the building
+    const radius = 15; // Keep fixed distance
     const angle = progress * Math.PI * 4; // Multiple rotations around the building
-    const height = 2 + progress * 25; // Rise from ground to top
+    const height = 8; // Keep fixed height
     
-    // Calculate spiral position
+    // Calculate rotation position
     const targetX = Math.cos(angle) * radius;
     const targetZ = Math.sin(angle) * radius;
     const targetY = height;
@@ -35,9 +35,8 @@ export const ScrollController = () => {
     // Smooth camera movement
     camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.05);
     
-    // Always look at the building center with height offset
-    const lookAtY = progress * 12;
-    camera.lookAt(0, lookAtY, 0);
+    // Always look at the building center
+    camera.lookAt(0, 8, 0);
   });
 
   return null;
