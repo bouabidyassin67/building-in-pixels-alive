@@ -81,18 +81,8 @@ export const ContentSections = () => {
     }
   ];
 
-  // Calculate rotation angle based on scroll progress (same as building rotation)
-  const rotationAngle = scrollProgress * Math.PI * 4;
-
   return (
-    <div 
-      className="min-h-[500vh]"
-      style={{
-        transform: `rotate(${rotationAngle}rad)`,
-        transformOrigin: 'center center',
-        transition: 'transform 0.1s ease-out'
-      }}
-    >
+    <div className="min-h-[500vh]">
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center text-center text-white">
         <div className="max-w-4xl mx-auto px-6">
@@ -121,7 +111,7 @@ export const ContentSections = () => {
             className="h-screen flex items-center justify-center px-6"
           >
             <Card className={`max-w-2xl mx-auto bg-black/60 backdrop-blur-lg border-gray-700 text-white transition-all duration-1000 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
             }`}>
               <CardContent className="p-8">
                 <div className="flex items-center gap-4 mb-6">
