@@ -25,7 +25,11 @@ export const ScrollController = () => {
     // Fixed camera rotation around the building
     const radius = 15; // Keep fixed distance
     const angle = progress * Math.PI * 4; // Multiple rotations around the building
-    const height = 8; // Keep fixed height
+    
+    // Start at entrance level (ground floor) and go up floor by floor
+    const startHeight = 2; // Entrance level
+    const maxHeight = 22; // Top of building
+    const height = startHeight + (progress * (maxHeight - startHeight));
     
     // Calculate rotation position
     const targetX = Math.cos(angle) * radius;
@@ -35,8 +39,8 @@ export const ScrollController = () => {
     // Smooth camera movement
     camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.05);
     
-    // Always look at the building center
-    camera.lookAt(0, 8, 0);
+    // Always look at the building center at the current height level
+    camera.lookAt(0, height, 0);
   });
 
   return null;
