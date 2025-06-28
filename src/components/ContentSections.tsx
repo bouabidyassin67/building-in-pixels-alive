@@ -110,34 +110,36 @@ export const ContentSections = () => {
             data-section={index}
             className="h-screen flex items-center justify-center px-6"
           >
-            <Card className={`max-w-2xl mx-auto bg-black/60 backdrop-blur-lg border-gray-700 text-white transition-all duration-1000 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
-            }`}>
-              <CardContent className="p-8">
-                <div className="flex items-center gap-4 mb-6">
-                  <Icon className="h-12 w-12 text-blue-400" />
-                  <div>
-                    <h2 className="text-3xl font-bold">{section.title}</h2>
-                    <p className="text-blue-300">{section.subtitle}</p>
-                  </div>
-                </div>
-                <p className="text-lg leading-relaxed text-gray-300">
-                  {section.content}
-                </p>
-                {section.id === 'contact' && (
-                  <div className="mt-6 space-y-3">
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <MapPin className="h-5 w-5" />
-                      <span>123 Skyline Avenue, Metropolitan District</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <Phone className="h-5 w-5" />
-                      <span>+1 (555) 123-4567</span>
+            <div className="w-full max-w-4xl mx-auto flex items-center justify-center">
+              <Card className={`w-full max-w-2xl bg-black/60 backdrop-blur-lg border-gray-700 text-white transition-all duration-1000 ${
+                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
+              }`}>
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-4 mb-6">
+                    <Icon className="h-12 w-12 text-blue-400" />
+                    <div>
+                      <h2 className="text-3xl font-bold">{section.title}</h2>
+                      <p className="text-blue-300">{section.subtitle}</p>
                     </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                  <p className="text-lg leading-relaxed text-gray-300">
+                    {section.content}
+                  </p>
+                  {section.id === 'contact' && (
+                    <div className="mt-6 space-y-3">
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <MapPin className="h-5 w-5" />
+                        <span>123 Skyline Avenue, Metropolitan District</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-gray-300">
+                        <Phone className="h-5 w-5" />
+                        <span>+1 (555) 123-4567</span>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </section>
         );
       })}
