@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Home, Crown, Phone, MapPin, Star } from 'lucide-react';
+import { Building2, Home, Crown, Phone, MapPin, Star, Eye, Telescope, Sparkles } from 'lucide-react';
 
 export const ContentSections = () => {
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
@@ -45,98 +45,158 @@ export const ContentSections = () => {
 
   const sections = [
     {
-      id: 'entrance',
+      id: 'hero',
       icon: Building2,
-      title: 'Grand Entrance',
-      subtitle: 'Where luxury begins',
-      content: 'Step into a world of sophisticated design with our double-height lobby featuring marble finishes, contemporary art installations, and 24/7 concierge service.'
+      title: 'Skyline Tower',
+      subtitle: 'Redefining luxury living in the heart of the city',
+      content: 'Welcome to the most prestigious address in the metropolitan district. As you explore our architectural masterpiece, discover how each floor tells a unique story of luxury and innovation.',
+      position: 'center',
+      viewDescription: 'Your journey begins here'
     },
     {
-      id: 'amenities',
-      icon: Star,
-      title: 'World-Class Amenities',
-      subtitle: 'Everything you need',
-      content: 'Enjoy our rooftop infinity pool, state-of-the-art fitness center, private dining rooms, and landscaped terraces with panoramic city views.'
+      id: 'entrance-view',
+      icon: Eye,
+      title: 'Ground Level Perspective',
+      subtitle: 'The foundation of luxury',
+      content: 'From street level, witness the impressive entrance plaza with its landscaped gardens and curved architectural lines. The building\'s organic wave design creates a stunning first impression that sets it apart from traditional towers.',
+      position: 'left',
+      viewDescription: 'Currently viewing: Entrance & Ground Floor'
     },
     {
-      id: 'residences',
+      id: 'residential-floors',
       icon: Home,
-      title: 'Luxury Residences',
-      subtitle: 'Your perfect home',
-      content: 'Spacious 1-4 bedroom apartments with floor-to-ceiling windows, premium finishes, smart home technology, and private balconies overlooking the city.'
+      title: 'Mid-Level Residences',
+      subtitle: 'Where comfort meets design',
+      content: 'As we ascend, observe the residential floors with their flowing balconies and expansive windows. Each unit features floor-to-ceiling glass that maximizes natural light and offers unobstructed city views.',
+      position: 'right',
+      viewDescription: 'Currently viewing: Floors 2-3'
     },
     {
-      id: 'penthouse',
+      id: 'upper-residences',
+      icon: Telescope,
+      title: 'Upper Level Luxury',
+      subtitle: 'Elevated living experience',
+      content: 'The upper residential floors showcase premium amenities and enhanced privacy. Notice how the building\'s curved design creates unique living spaces with panoramic views that change throughout the day.',
+      position: 'left',
+      viewDescription: 'Currently viewing: Floor 4'
+    },
+    {
+      id: 'penthouse-clouds',
       icon: Crown,
-      title: 'Penthouse Collection',
-      subtitle: 'The pinnacle of luxury',
-      content: 'Exclusive penthouse suites with private elevators, wraparound terraces, premium appliances, and unobstructed 360-degree city views.'
+      title: 'Penthouse in the Clouds',
+      subtitle: 'Above the city, beyond expectations',
+      content: 'The crowning achievement - our penthouse level emerges from the clouds like a floating palace. This exclusive residence offers 360-degree views and private terraces that feel like you\'re living in the sky itself.',
+      position: 'right',
+      viewDescription: 'Currently viewing: Floor 5 - Penthouse Level'
+    },
+    {
+      id: 'rooftop-garden',
+      icon: Sparkles,
+      title: 'Sky Gardens & Amenities',
+      subtitle: 'Your private oasis above the clouds',
+      content: 'The rooftop features lush gardens, premium amenities, and entertainment spaces. This is where residents gather to enjoy sunset cocktails while floating above the metropolitan skyline.',
+      position: 'left',
+      viewDescription: 'Currently viewing: Rooftop Terrace'
     },
     {
       id: 'contact',
       icon: Phone,
-      title: 'Schedule Your Visit',
-      subtitle: 'Experience luxury living',
-      content: 'Contact our sales team to schedule a private tour and discover why this is the most sought-after address in the city.'
+      title: 'Schedule Your Private Tour',
+      subtitle: 'Experience this architectural marvel',
+      content: 'Ready to call Skyline Tower home? Our exclusive sales team is waiting to guide you through this one-of-a-kind living experience. Book your private tour today.',
+      position: 'center',
+      viewDescription: 'Complete your journey with us'
     }
   ];
 
   return (
-    <div className="min-h-[500vh]">
-      {/* Hero Section */}
-      <section className="h-screen flex items-center justify-center text-center text-white">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 animate-fade-in">
-            Skyline Tower
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-300">
-            Redefining luxury living in the heart of the city
-          </p>
-          <Badge className="text-lg px-6 py-2 bg-blue-600/20 text-blue-300 border-blue-600/30">
-            Now Selling
-          </Badge>
-        </div>
-      </section>
-
-      {/* Content Sections */}
+    <div className="min-h-[700vh]">
       {sections.map((section, index) => {
         const Icon = section.icon;
         const isVisible = visibleSections.has(index);
         
+        // First and last sections are centered
+        if (section.position === 'center') {
+          return (
+            <section
+              key={section.id}
+              id={section.id}
+              data-section={index}
+              className="h-screen flex items-center justify-center px-6"
+            >
+              <div className="w-full max-w-4xl mx-auto flex items-center justify-center">
+                <Card className={`w-full max-w-2xl bg-black/70 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
+                  isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}>
+                  <CardContent className="p-10">
+                    <div className="text-center">
+                      <Icon className="h-16 w-16 text-blue-400 mx-auto mb-6" />
+                      <h1 className={`${index === 0 ? 'text-5xl md:text-6xl' : 'text-3xl'} font-bold mb-4`}>
+                        {section.title}
+                      </h1>
+                      <p className="text-xl text-blue-300 mb-6">{section.subtitle}</p>
+                      <p className="text-lg leading-relaxed text-gray-300 mb-6">
+                        {section.content}
+                      </p>
+                      {index === 0 && (
+                        <Badge className="text-lg px-6 py-2 bg-blue-600/20 text-blue-300 border-blue-600/30">
+                          Now Selling
+                        </Badge>
+                      )}
+                      {section.id === 'contact' && (
+                        <div className="mt-8 space-y-4">
+                          <div className="flex items-center justify-center gap-3 text-gray-300">
+                            <MapPin className="h-5 w-5" />
+                            <span>123 Skyline Avenue, Metropolitan District</span>
+                          </div>
+                          <div className="flex items-center justify-center gap-3 text-gray-300">
+                            <Phone className="h-5 w-5" />
+                            <span>+1 (555) 123-4567</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+          );
+        }
+
+        // Left and right positioned sections
         return (
           <section
             key={section.id}
             id={section.id}
             data-section={index}
-            className="h-screen flex items-center justify-center px-6"
+            className="h-screen flex items-center px-6"
           >
-            <div className="w-full max-w-4xl mx-auto flex items-center justify-center">
-              <Card className={`w-full max-w-2xl bg-black/60 backdrop-blur-lg border-gray-700 text-white transition-all duration-1000 ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
-              }`}>
+            <div className={`w-full max-w-7xl mx-auto flex items-center ${
+              section.position === 'left' ? 'justify-start' : 'justify-end'
+            }`}>
+              <Card className={`w-full max-w-lg bg-black/70 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
+                isVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : section.position === 'left' 
+                    ? 'opacity-0 -translate-x-full' 
+                    : 'opacity-0 translate-x-full'
+              } ${section.position === 'left' ? 'mr-auto' : 'ml-auto'}`}>
                 <CardContent className="p-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <Icon className="h-12 w-12 text-blue-400" />
+                  <div className="mb-4">
+                    <Badge className="text-xs px-3 py-1 bg-blue-600/30 text-blue-200 border-blue-500/40 mb-4">
+                      {section.viewDescription}
+                    </Badge>
+                  </div>
+                  <div className="flex items-start gap-4 mb-6">
+                    <Icon className="h-10 w-10 text-blue-400 mt-1 flex-shrink-0" />
                     <div>
-                      <h2 className="text-3xl font-bold">{section.title}</h2>
-                      <p className="text-blue-300">{section.subtitle}</p>
+                      <h2 className="text-2xl font-bold mb-2">{section.title}</h2>
+                      <p className="text-blue-300 text-sm">{section.subtitle}</p>
                     </div>
                   </div>
-                  <p className="text-lg leading-relaxed text-gray-300">
+                  <p className="text-base leading-relaxed text-gray-300">
                     {section.content}
                   </p>
-                  {section.id === 'contact' && (
-                    <div className="mt-6 space-y-3">
-                      <div className="flex items-center gap-3 text-gray-300">
-                        <MapPin className="h-5 w-5" />
-                        <span>123 Skyline Avenue, Metropolitan District</span>
-                      </div>
-                      <div className="flex items-center gap-3 text-gray-300">
-                        <Phone className="h-5 w-5" />
-                        <span>+1 (555) 123-4567</span>
-                      </div>
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </div>
