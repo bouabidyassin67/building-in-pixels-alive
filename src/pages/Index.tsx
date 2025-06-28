@@ -1,4 +1,3 @@
-
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
 import { ScrollController } from '@/components/ScrollController';
@@ -7,6 +6,7 @@ import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ContentSections } from '@/components/ContentSections';
 import { Navigation } from '@/components/Navigation';
 import { Preloader } from '@/components/Preloader';
+import { Footer } from '@/components/Footer';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +41,7 @@ const Index = () => {
       {/* Scrollable Content */}
       <div className="relative z-10">
         <ContentSections />
+        <Footer />
       </div>
     </div>
   );
