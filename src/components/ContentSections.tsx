@@ -6,6 +6,19 @@ import { Building2, Home, Crown, Phone, MapPin, Star } from 'lucide-react';
 
 export const ContentSections = () => {
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(scrollTop / docHeight, 1);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -68,8 +81,18 @@ export const ContentSections = () => {
     }
   ];
 
+  // Calculate rotation angle based on scroll progress (same as building rotation)
+  const rotationAngle = scrollProgress * Math.PI * 4;
+
   return (
-    <div className="min-h-[500vh]">
+    <div 
+      className="min-h-[500vh]"
+      style={{
+        transform: `rotate(${rotationAngle}rad)`,
+        transformOrigin: 'center center',
+        transition: 'transform 0.1s ease-out'
+      }}
+    >
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center text-center text-white">
         <div className="max-w-4xl mx-auto px-6">
