@@ -1,13 +1,24 @@
 
 import { Canvas } from '@react-three/fiber';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { ScrollController } from '@/components/ScrollController';
 import { Scene3D } from '@/components/Scene3D';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ContentSections } from '@/components/ContentSections';
 import { Navigation } from '@/components/Navigation';
+import { Preloader } from '@/components/Preloader';
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handlePreloaderComplete = () => {
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <Preloader onComplete={handlePreloaderComplete} />;
+  }
+
   return (
     <div className="relative">
       {/* Fixed 3D Canvas */}

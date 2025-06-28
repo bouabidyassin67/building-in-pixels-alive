@@ -125,7 +125,7 @@ export const ContentSections = () => {
               className="h-screen flex items-center justify-center px-6"
             >
               <div className="w-full max-w-4xl mx-auto flex items-center justify-center">
-                <Card className={`w-full max-w-2xl bg-black/70 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
+                <Card className={`h-auto max-w-2xl bg-black/70 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
                   isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                 }`}>
                   <CardContent className="p-10">
@@ -163,7 +163,7 @@ export const ContentSections = () => {
           );
         }
 
-        // Left and right positioned sections
+        // Left and right positioned sections with more extreme positioning
         return (
           <section
             key={section.id}
@@ -171,16 +171,18 @@ export const ContentSections = () => {
             data-section={index}
             className="h-screen flex items-center px-6"
           >
-            <div className={`w-full max-w-7xl mx-auto flex items-center ${
-              section.position === 'left' ? 'justify-start' : 'justify-end'
+            <div className={`w-full max-w-none mx-auto flex items-center ${
+              section.position === 'left' 
+                ? 'justify-start pl-12 md:pl-24' 
+                : 'justify-end pr-12 md:pr-24'
             }`}>
-              <Card className={`w-full max-w-lg bg-black/70 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
+              <Card className={`h-auto max-w-md bg-black/70 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
                 isVisible 
                   ? 'opacity-100 translate-x-0' 
                   : section.position === 'left' 
                     ? 'opacity-0 -translate-x-full' 
                     : 'opacity-0 translate-x-full'
-              } ${section.position === 'left' ? 'mr-auto' : 'ml-auto'}`}>
+              }`}>
                 <CardContent className="p-8">
                   <div className="mb-4">
                     <Badge className="text-xs px-3 py-1 bg-blue-600/30 text-blue-200 border-blue-500/40 mb-4">
