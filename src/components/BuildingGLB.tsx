@@ -8,17 +8,33 @@ import { Html } from '@react-three/drei';
 export function BuildingGLB(props: any) {
   const group = useRef<Group>(null);
   
-  // Use useGLTF hook properly - it handles loading states internally
-  const { scene, error } = useGLTF('/scifi.glb');
+  try {
+    // Use useGLTF hook - it handles loading states internally
+    const { scene } = useGLTF('/scifi.glb');
 
-  useFrame(() => {
-    if (group.current && scene) {
-      group.current.rotation.y += 0.001;
+    useFrame(() => {
+      if (group.current && scene) {
+        group.current.rotation.y += 0.001;
+      }
+    });
+
+    // Handle missing scene
+    if (!scene) {
+      return (
+        <Html center>
+          <div style={{ color: 'white', fontSize: '16px' }}>
+            Loading 3D model...
+          </div>
+        </Html>
+      );
     }
-  });
 
-  // Handle error state
-  if (error) {
+    return (
+      <group ref={group} {...props}>
+        <primitive object={scene.clone()} />
+      </group>
+    );
+  } catch (error) {
     console.error("GLB loading error:", error);
     return (
       <Html center>
@@ -28,23 +44,6 @@ export function BuildingGLB(props: any) {
       </Html>
     );
   }
-
-  // Handle missing scene
-  if (!scene) {
-    return (
-      <Html center>
-        <div style={{ color: 'white', fontSize: '16px' }}>
-          Loading 3D model...
-        </div>
-      </Html>
-    );
-  }
-
-  return (
-    <group ref={group} {...props}>
-      <primitive object={scene.clone()} />
-    </group>
-  );
 }
 
 // Preload the model
