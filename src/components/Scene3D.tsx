@@ -5,6 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { BuildingGLB } from './BuildingGLB';
+import { Clouds } from './Clouds';
 
 // Realistic Sky with proper day/night cycle
 function RealisticSky({ theme }: { theme: string }) {
@@ -292,6 +293,9 @@ export const Scene3D = () => {
 
       {/* Main Building */}
       <BuildingWithFallback />
+
+      {/* Cloud GLB Models */}
+      <Clouds />
 
       {/* Realistic City Ground */}
       <CityGround theme={theme} />
