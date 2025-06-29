@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useNavigate } from 'react-router-dom';
 import { 
   Building2, 
   User, 
@@ -22,14 +23,30 @@ import {
   Info
 } from 'lucide-react';
 
-interface ResidentDashboardProps {
-  userData: any;
-  onLogout: () => void;
-}
-
-export const ResidentDashboard = ({ userData, onLogout }: ResidentDashboardProps) => {
+const ResidentDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [supportMessage, setSupportMessage] = useState('');
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userData');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      if (user.role !== 'resident') {
+        navigate('/login');
+        return;
+      }
+      setUserData(user);
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
+    navigate('/');
+  };
 
   // Mock data for demonstration
   const apartmentUpdates = [
@@ -107,6 +124,10 @@ export const ResidentDashboard = ({ userData, onLogout }: ResidentDashboardProps
     setSupportMessage('');
   };
 
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
@@ -121,7 +142,7 @@ export const ResidentDashboard = ({ userData, onLogout }: ResidentDashboardProps
               </div>
             </div>
             <Button 
-              onClick={onLogout}
+              onClick={handleLogout}
               variant="outline"
               className="flex items-center space-x-2"
             >
@@ -377,3 +398,5 @@ export const ResidentDashboard = ({ userData, onLogout }: ResidentDashboardProps
     </div>
   );
 };
+
+export default ResidentDashboard;
