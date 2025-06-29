@@ -9,6 +9,7 @@ import { Preloader } from '@/components/Preloader';
 import { Footer } from '@/components/Footer';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { ThreeErrorBoundary } from '@/components/ThreeErrorBoundary';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,16 +27,21 @@ const Index = () => {
       <div className="relative">
         {/* Fixed 3D Canvas */}
         <div className="fixed inset-0 z-0">
-          <Canvas
-            shadows
-            camera={{ position: [0, 2, 15], fov: 60 }}
-            gl={{ antialias: true, alpha: true }}
-          >
-            <Suspense fallback={<LoadingSpinner />}>
-              <Scene3D />
-              <ScrollController />
-            </Suspense>
-          </Canvas>
+          <ThreeErrorBoundary>
+            <Canvas
+              shadows
+              camera={{ position: [0, 2, 15], fov: 60 }}
+              gl={{ antialias: true, alpha: true }}
+              onCreated={({ gl }) => {
+                gl.setClearColor('#000000', 0);
+              }}
+            >
+              <Suspense fallback={<LoadingSpinner />}>
+                <Scene3D />
+                <ScrollController />
+              </Suspense>
+            </Canvas>
+          </ThreeErrorBoundary>
         </div>
 
         {/* Navigation */}

@@ -1,15 +1,15 @@
+
 import React, { useRef, Suspense } from 'react';
-import { useFrame, useLoader } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { useGLTF } from '@react-three/drei';
 import { Html } from '@react-three/drei';
 
 export function BuildingGLB(props: any) {
   const group = useRef<Group>(null);
-  const gltf = useLoader(GLTFLoader, '/scifi.glb');
-
-  // Log the gltf object to the console for inspection
-  console.log("Loaded GLTF object:", gltf);
+  
+  // Use useGLTF from drei instead of direct GLTFLoader
+  const { scene, error } = useGLTF('/scifi.glb');
 
   useFrame(() => {
     if (group.current) {
@@ -17,13 +17,24 @@ export function BuildingGLB(props: any) {
     }
   });
 
-  // Check if gltf.scene exists before attempting to clone and render
-  if (!gltf || !gltf.scene) {
-    console.error("Error: gltf.scene is undefined or null. The GLB model might not have loaded correctly or is corrupted.");
+  // Handle loading error
+  if (error) {
+    console.error("Error loading GLB model:", error);
     return (
       <Html center>
         <div style={{ color: 'red', fontSize: '16px' }}>
-          Error loading 3D model. Check console for details.
+          Error loading 3D model. Check if scifi.glb exists in public folder.
+        </div>
+      </Html>
+    );
+  }
+
+  // Handle missing scene
+  if (!scene) {
+    return (
+      <Html center>
+        <div style={{ color: 'white', fontSize: '16px' }}>
+          Loading 3D model...
         </div>
       </Html>
     );
@@ -31,9 +42,10 @@ export function BuildingGLB(props: any) {
 
   return (
     <group ref={group} {...props}>
-      <Suspense fallback={<Html center>Loading GLB...</Html>}>
-        <primitive object={gltf.scene.clone()} />
-      </Suspense>
+      <primitive object={scene} />
     </group>
   );
 }
+
+// Preload the model
+useGLTF.preload('/scifi.glb');

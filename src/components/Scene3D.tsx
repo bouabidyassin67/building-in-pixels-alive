@@ -1,6 +1,7 @@
 import { useRef, useMemo } from 'react';
 import { Environment, Stars } from '@react-three/drei';
 import { Clouds } from './Clouds';
+import { TowerBuilding } from './TowerBuilding';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -65,6 +66,8 @@ function AnimatedStars(props) {
 
 export const Scene3D = () => {
   const { theme } = useTheme();
+  const showGLBBuilding = useRef(true);
+
   return (
     <>
       {/* Lighting Setup */}
@@ -103,8 +106,19 @@ export const Scene3D = () => {
       {/* Fog for depth */}
       <fog attach="fog" args={[theme === 'dark' ? '#0a1026' : '#eaf6ff', 30, 100]} />
 
-      {/* Main Building */}
-      <BuildingGLB />
+      {/* Main Building - with fallback */}
+      {showGLBBuilding.current ? (
+        <Suspense fallback={<TowerBuilding />}>
+          <BuildingGLB 
+            onError={() => {
+              console.warn("GLB model failed to load, falling back to procedural building");
+              showGLBBuilding.current = false;
+            }}
+          />
+        </Suspense>
+      ) : (
+        <TowerBuilding />
+      )}
 
       {/* Clouds */}
       <Clouds />
