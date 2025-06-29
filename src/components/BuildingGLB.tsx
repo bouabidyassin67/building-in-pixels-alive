@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import { useGLTF } from '@react-three/drei';
 import { Html } from '@react-three/drei';
@@ -11,11 +10,7 @@ export function BuildingGLB(props: any) {
     // Use useGLTF hook - it handles loading states internally
     const { scene } = useGLTF('/modern_building_002.glb');
 
-    useFrame(() => {
-      if (group.current && scene) {
-        group.current.rotation.y += 0.001;
-      }
-    });
+    // Removed useFrame - no more rotation animation
 
     // Handle missing scene
     if (!scene) {

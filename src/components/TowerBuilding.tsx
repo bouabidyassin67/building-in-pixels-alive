@@ -1,18 +1,11 @@
-
 import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import * as THREE from 'three';
 
 export const TowerBuilding = () => {
   const buildingRef = useRef<Group>(null);
 
-  useFrame((state) => {
-    if (buildingRef.current) {
-      // Subtle breathing animation
-      buildingRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.05) * 0.005;
-    }
-  });
+  // Removed useFrame - no more rotation animation
 
   // Create curved shape for each floor
   const createFloorShape = (floorIndex: number) => {
