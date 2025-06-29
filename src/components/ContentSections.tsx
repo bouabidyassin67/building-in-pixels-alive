@@ -1,8 +1,10 @@
-
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building2, Home, Crown, Phone, MapPin, Star, Eye, Telescope, Sparkles, Users, Wifi, Car, Shield, Waves } from 'lucide-react';
+import { ScrollIndicator } from '@/components/ScrollIndicator';
+import { ContactDialog } from '@/components/ContactDialog';
+import logo from '/public/logo.png';
+import sliderlogo from '/public/sliderlogo.png';
 
 export const ContentSections = () => {
   const [visibleSections, setVisibleSections] = useState<Set<number>>(new Set());
@@ -46,10 +48,8 @@ export const ContentSections = () => {
   const sections = [
     {
       id: 'hero',
-      icon: Building2,
-      title: 'Skyline Tower',
       subtitle: 'Redefining luxury living in the heart of the city',
-      content: 'Welcome to the most prestigious address in the metropolitan district. Rising 60 stories above the cityscape, Skyline Tower offers unparalleled views, world-class amenities, and architectural excellence. Experience a new standard of luxury living where every detail has been crafted to perfection.',
+      content: 'Welcome to the most prestigious address in the metropolitan district. Rising 60 stories above the cityscape, Chermiti Building offers unparalleled views, world-class amenities, and architectural excellence. Experience a new standard of luxury living where every detail has been crafted to perfection.',
       position: 'center',
       viewDescription: 'Your journey begins here',
       features: ['60 Stories of Luxury', '180 Exclusive Residences', '24/7 Concierge Service', 'Sky Gardens & Terraces'],
@@ -57,10 +57,9 @@ export const ContentSections = () => {
     },
     {
       id: 'entrance-view',
-      icon: Eye,
       title: 'Grand Entrance Plaza',
       subtitle: 'First impressions that last forever',
-      content: 'The moment you arrive, you\'ll understand why Skyline Tower stands apart. Our grand entrance features a 30-foot waterfall cascade, imported Italian marble flooring, and custom crystal chandeliers. The curved glass facade creates a stunning visual gateway to luxury.',
+      content: 'The moment you arrive, you\'ll understand why Chermiti Building stands apart. Our grand entrance features a 30-foot waterfall cascade, imported Italian marble flooring, and custom crystal chandeliers. The curved glass facade creates a stunning visual gateway to luxury.',
       position: 'left',
       viewDescription: 'Currently viewing: Ground Level & Entrance',
       features: ['Valet Parking Service', 'Private Drop-off Zone', 'Secured Entry Systems', 'Landscaped Gardens'],
@@ -68,7 +67,6 @@ export const ContentSections = () => {
     },
     {
       id: 'residential-floors',
-      icon: Home,
       title: 'Luxury Residences',
       subtitle: 'Where comfort meets sophistication',
       content: 'Floors 5-45 house our premium residential units, each featuring floor-to-ceiling windows, premium hardwood flooring, and custom millwork. Every residence includes smart home technology, European appliances, and private balconies with breathtaking city views.',
@@ -79,7 +77,6 @@ export const ContentSections = () => {
     },
     {
       id: 'upper-residences',
-      icon: Telescope,
       title: 'Sky Residences',
       subtitle: 'Elevated living, elevated views',
       content: 'Floors 46-55 offer our most exclusive residential experiences. These sky residences feature 12-foot ceilings, private terraces, and panoramic windows. Each unit includes a private wine cellar, home office space, and access to the exclusive Sky Club.',
@@ -90,7 +87,6 @@ export const ContentSections = () => {
     },
     {
       id: 'penthouse-clouds',
-      icon: Crown,
       title: 'Penthouse Collection',
       subtitle: 'The crown jewel of urban living',
       content: 'Floors 56-58 house our ultra-exclusive penthouse collection. These magnificent homes feature private elevator access, wrap-around terraces, infinity pools, and 360-degree city views. Each penthouse is a masterpiece of design and luxury.',
@@ -101,7 +97,6 @@ export const ContentSections = () => {
     },
     {
       id: 'rooftop-garden',
-      icon: Sparkles,
       title: 'Sky Gardens & Amenities',
       subtitle: 'Your private paradise above the clouds',
       content: 'The rooftop level features lush sky gardens, an Olympic-size pool, state-of-the-art fitness center, spa facilities, and multiple entertainment spaces. This is where residents gather to enjoy sunset cocktails while floating above the metropolitan skyline.',
@@ -112,91 +107,101 @@ export const ContentSections = () => {
     },
     {
       id: 'contact',
-      icon: Phone,
       title: 'Schedule Your Private Tour',
       subtitle: 'Experience this architectural marvel',
-      content: 'Ready to call Skyline Tower home? Our exclusive sales team is waiting to guide you through this one-of-a-kind living experience. Book your private helicopter tour or ground-level presentation today. Financing options available for qualified buyers.',
+      content: 'Ready to call Chermiti Building home? Our exclusive sales team is waiting to guide you through this one-of-a-kind living experience. Book your private helicopter tour or ground-level presentation today. Financing options available for qualified buyers.',
       position: 'center',
       viewDescription: 'Complete your journey with us',
-      features: ['Private Helicopter Tours', 'Virtual Reality Previews', 'Flexible Financing', 'Move-in Ready Units']
+      features: ['Private Helicopter Tours', 'Virtual Reality Previews', 'Flexible Financing', 'Move-in Ready Units'],
+      amenity: null // Remove amenity for contact section
     }
   ];
 
   return (
     <div className="min-h-[700vh]">
       {sections.map((section, index) => {
-        const Icon = section.icon;
         const isVisible = visibleSections.has(index);
         
         // First and last sections are centered
-        if (section.position === 'center') {
+        if (section.position === 'center' && index === 0) {
           return (
             <section
               key={section.id}
               id={section.id}
               data-section={index}
-              className="h-screen flex items-center justify-center px-6"
+              className="h-screen flex items-center justify-center px-6 relative"
             >
               <div className="w-full max-w-4xl mx-auto flex items-center justify-center">
-                <Card className={`h-auto max-w-3xl bg-black/80 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
+                <Card className={`h-auto max-w-3xl bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 text-gray-800 dark:text-white transition-all duration-1000 ${
                   isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                 }`}>
                   <CardContent className="p-12">
                     <div className="text-center">
-                      <Icon className="h-20 w-20 text-blue-400 mx-auto mb-8" />
-                      <h1 className={`${index === 0 ? 'text-5xl md:text-7xl' : 'text-4xl'} font-bold mb-6`}>
-                        {section.title}
-                      </h1>
-                      <p className="text-2xl text-blue-300 mb-8">{section.subtitle}</p>
-                      <p className="text-lg leading-relaxed text-gray-300 mb-8 max-w-2xl mx-auto">
-                        {section.content}
-                      </p>
-                      
-                      {section.features && (
-                        <div className="grid grid-cols-2 gap-4 mb-8 max-w-2xl mx-auto">
-                          {section.features.map((feature, idx) => (
-                            <div key={idx} className="flex items-center space-x-2 text-blue-200">
-                              <Star className="h-4 w-4 text-blue-400" />
-                              <span className="text-sm">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      <Badge className="text-xs px-4 py-2 bg-blue-100/60 dark:bg-blue-600/30 text-blue-600 dark:text-blue-200 border-blue-400/40 dark:border-blue-500/40 mb-6">
+                        {section.viewDescription}
+                      </Badge>
+                      <img src={sliderlogo} alt="Chermiti Slider Logo" className="mx-auto mb-8 h-24 md:h-32 w-auto object-contain bg-transparent border-none outline-none shadow-none" />
+                      <h1 className="text-4xl md:text-5xl font-bold mb-4">{section.title}</h1>
+                      <h2 className="text-xl md:text-2xl font-semibold mb-6 text-gray-700 dark:text-blue-200">{section.subtitle}</h2>
+                      <p className="mb-8 text-lg text-gray-800 dark:text-gray-200">{section.content}</p>
+                      <div className="flex flex-wrap justify-center gap-4 mb-8">
+                        {section.features.map((feature, i) => (
+                          <span key={i} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/40 dark:bg-blue-900/40 text-blue-700 dark:text-blue-200 border border-blue-400/30 dark:border-blue-700/30 text-sm font-medium">
+                            <img src={logo} alt="Feature" className="h-4 w-4 object-contain bg-transparent p-0 border-none outline-none shadow-none" />
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="text-green-500 dark:text-green-400 text-xl font-bold mb-2">{section.pricing}</div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              {/* Scroll Indicator placed at the bottom center of the hero section */}
+              <div className="absolute left-1/2 -bottom-12 transform -translate-x-1/2 z-10">
+                <ScrollIndicator />
+              </div>
+            </section>
+          );
+        }
 
-                      {index === 0 && (
-                        <div className="space-y-4">
-                          <Badge className="text-xl px-8 py-3 bg-blue-600/30 text-blue-300 border-blue-600/50">
-                            Now Selling - Limited Availability
-                          </Badge>
-                          {section.pricing && (
-                            <p className="text-lg text-green-400 font-semibold">{section.pricing}</p>
-                          )}
-                        </div>
-                      )}
-                      
-                      {section.id === 'contact' && (
-                        <div className="mt-10 space-y-6">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                            <div className="flex items-center justify-center gap-3 text-gray-300 bg-gray-800/50 p-4 rounded-lg">
-                              <MapPin className="h-6 w-6 text-blue-400" />
-                              <div className="text-left">
-                                <p className="font-semibold">Address</p>
-                                <p className="text-sm">123 Skyline Avenue<br />Metropolitan District</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center justify-center gap-3 text-gray-300 bg-gray-800/50 p-4 rounded-lg">
-                              <Phone className="h-6 w-6 text-blue-400" />
-                              <div className="text-left">
-                                <p className="font-semibold">Sales Office</p>
-                                <p className="text-sm">+1 (555) 123-4567<br />Open 7 Days a Week</p>
-                              </div>
-                            </div>
-                          </div>
-                          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
-                            Schedule Private Tour
+        // Left and right positioned sections with more extreme positioning
+        if (section.id === 'contact') {
+          return (
+            <section
+              key={section.id}
+              id={section.id}
+              data-section={index}
+              className="h-screen flex items-center justify-center px-6 relative"
+            >
+              <div className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center gap-8">
+                <Card className={`h-auto w-full max-w-3xl bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 text-gray-800 dark:text-white transition-all duration-1000 ${
+                  isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}>
+                  <CardContent className="p-12">
+                    <div className="text-center">
+                      <Badge className="text-xs px-4 py-2 bg-blue-100/60 dark:bg-blue-600/30 text-blue-600 dark:text-blue-200 border-blue-400/40 dark:border-blue-500/40 mb-6">
+                        {section.viewDescription}
+                      </Badge>
+                      <img src={logo} alt="Chermiti Logo" className="mx-auto mb-4 h-14 w-14 rounded-full shadow-lg object-contain bg-white/80 dark:bg-black/80 p-2" />
+                      <h1 className="text-4xl md:text-5xl font-bold mb-4">{section.title}</h1>
+                      <h2 className="text-xl md:text-2xl font-semibold mb-6 text-gray-700 dark:text-blue-200">{section.subtitle}</h2>
+                      <p className="mb-8 text-lg text-gray-800 dark:text-gray-200">{section.content}</p>
+                      <div className="flex flex-wrap justify-center gap-4 mb-8">
+                        {section.features.map((feature, i) => (
+                          <span key={i} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/40 dark:bg-blue-900/40 text-blue-700 dark:text-blue-200 border border-blue-400/30 dark:border-blue-700/30 text-sm font-medium">
+                            <img src={logo} alt="Feature" className="h-4 w-4 object-contain bg-transparent p-0 border-none outline-none shadow-none" />
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex justify-center">
+                        <ContactDialog>
+                          <button className="bg-blue-600 dark:bg-blue-700 text-white px-8 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors font-semibold text-lg shadow-lg">
+                            Apply to Buy a Residence
                           </button>
-                        </div>
-                      )}
+                        </ContactDialog>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -205,7 +210,6 @@ export const ContentSections = () => {
           );
         }
 
-        // Left and right positioned sections with more extreme positioning
         return (
           <section
             key={section.id}
@@ -218,7 +222,7 @@ export const ContentSections = () => {
                 ? 'justify-start pl-12 md:pl-24' 
                 : 'justify-end pr-12 md:pr-24'
             }`}>
-              <Card className={`h-auto max-w-lg bg-black/80 backdrop-blur-lg border-gray-600 text-white transition-all duration-1000 ${
+              <Card className={`h-auto max-w-lg bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 text-gray-800 dark:text-white transition-all duration-1000 ${
                 isVisible 
                   ? 'opacity-100 translate-x-0' 
                   : section.position === 'left' 
@@ -227,27 +231,27 @@ export const ContentSections = () => {
               }`}>
                 <CardContent className="p-10">
                   <div className="mb-6">
-                    <Badge className="text-xs px-4 py-2 bg-blue-600/30 text-blue-200 border-blue-500/40 mb-6">
+                    <Badge className="text-xs px-4 py-2 bg-blue-100/60 dark:bg-blue-600/30 text-blue-600 dark:text-blue-200 border-blue-400/40 dark:border-blue-500/40 mb-6">
                       {section.viewDescription}
                     </Badge>
                   </div>
                   <div className="flex items-start gap-4 mb-8">
-                    <Icon className="h-12 w-12 text-blue-400 mt-1 flex-shrink-0" />
+                    <img src={logo} alt="Chermiti Logo" className="h-12 w-12 object-contain bg-transparent p-0 mt-1 flex-shrink-0 border-none outline-none shadow-none" />
                     <div>
                       <h2 className="text-3xl font-bold mb-3">{section.title}</h2>
-                      <p className="text-blue-300 text-lg">{section.subtitle}</p>
+                      <p className="text-blue-700 text-lg dark:text-blue-300">{section.subtitle}</p>
                     </div>
                   </div>
-                  <p className="text-base leading-relaxed text-gray-300 mb-6">
+                  <p className="text-base leading-relaxed text-gray-800 dark:text-gray-300 mb-6">
                     {section.content}
                   </p>
                   
                   {section.features && (
                     <div className="space-y-3 mb-6">
-                      <h4 className="text-sm font-semibold text-blue-300 uppercase tracking-wide">Key Features</h4>
+                      <h4 className="text-sm font-semibold text-gray-700 dark:text-blue-300 uppercase tracking-wide">Key Features</h4>
                       <div className="space-y-2">
                         {section.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center space-x-3 text-gray-300">
+                          <div key={idx} className="flex items-center space-x-3 text-gray-800 dark:text-gray-300">
                             <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                             <span className="text-sm">{feature}</span>
                           </div>
@@ -259,8 +263,8 @@ export const ContentSections = () => {
                   {section.amenity && (
                     <div className="bg-blue-600/20 border border-blue-600/30 rounded-lg p-4 mt-6">
                       <div className="flex items-center space-x-3">
-                        <Shield className="h-5 w-5 text-blue-400" />
-                        <span className="text-sm text-blue-200 font-medium">{section.amenity}</span>
+                        <img src={logo} alt="Amenity" className="h-5 w-5 object-contain bg-transparent p-0 border-none outline-none shadow-none" />
+                        <span className="text-sm text-gray-700 dark:text-blue-200 font-semibold">{section.amenity}</span>
                       </div>
                     </div>
                   )}

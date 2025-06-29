@@ -1,7 +1,6 @@
-
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, Group } from 'three';
+import { Group } from 'three';
 
 export const Building = () => {
   const buildingRef = useRef<Group>(null);

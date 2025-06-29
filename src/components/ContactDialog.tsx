@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -40,7 +39,7 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-black/95 border-gray-700 text-white">
+      <DialogContent className="sm:max-w-md bg-white/90 dark:bg-black/90 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-3 text-2xl">
             <Building2 className="h-8 w-8 text-blue-400" />
@@ -51,7 +50,7 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
         <form onSubmit={handleSubmit} className="space-y-6 mt-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="name" className="flex items-center space-x-2 text-blue-300">
+              <Label htmlFor="name" className="flex items-center space-x-2 text-gray-900 dark:text-blue-300 font-semibold">
                 <User className="h-4 w-4" />
                 <span>Full Name</span>
               </Label>
@@ -60,13 +59,13 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="bg-gray-800 border-gray-600 text-white mt-2"
+                className="bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white mt-2"
                 required
               />
             </div>
             
             <div>
-              <Label htmlFor="email" className="flex items-center space-x-2 text-blue-300">
+              <Label htmlFor="email" className="flex items-center space-x-2 text-gray-900 dark:text-blue-300 font-semibold">
                 <Mail className="h-4 w-4" />
                 <span>Email</span>
               </Label>
@@ -76,14 +75,14 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="bg-gray-800 border-gray-600 text-white mt-2"
+                className="bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white mt-2"
                 required
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="phone" className="flex items-center space-x-2 text-blue-300">
+            <Label htmlFor="phone" className="flex items-center space-x-2 text-gray-900 dark:text-blue-300 font-semibold">
               <Phone className="h-4 w-4" />
               <span>Phone Number</span>
             </Label>
@@ -93,19 +92,22 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              className="bg-gray-800 border-gray-600 text-white mt-2"
+              className="bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white mt-2"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="interest" className="text-blue-300">Interest</Label>
+              <Label htmlFor="interest" className="flex items-center space-x-2 text-gray-900 dark:text-blue-300 font-semibold">
+                <MessageSquare className="h-4 w-4" />
+                <span>Interest</span>
+              </Label>
               <select
                 id="interest"
                 name="interest"
                 value={formData.interest}
                 onChange={handleChange}
-                className="w-full p-2 mt-2 bg-gray-800 border border-gray-600 rounded-md text-white"
+                className="w-full p-2 mt-2 bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-600 rounded-md text-gray-900 dark:text-white"
               >
                 <option value="newsletter">Newsletter Only</option>
                 <option value="viewing">Schedule Viewing</option>
@@ -113,9 +115,8 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
                 <option value="investment">Investment Opportunity</option>
               </select>
             </div>
-
             <div>
-              <Label htmlFor="budget" className="flex items-center space-x-2 text-blue-300">
+              <Label htmlFor="budget" className="flex items-center space-x-2 text-gray-900 dark:text-blue-300 font-semibold">
                 <DollarSign className="h-4 w-4" />
                 <span>Budget Range</span>
               </Label>
@@ -124,7 +125,7 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
                 name="budget"
                 value={formData.budget}
                 onChange={handleChange}
-                className="w-full p-2 mt-2 bg-gray-800 border border-gray-600 rounded-md text-white"
+                className="w-full p-2 mt-2 bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-600 rounded-md text-gray-900 dark:text-white"
               >
                 <option value="">Select Budget</option>
                 <option value="2-5M">$2M - $5M</option>
@@ -136,7 +137,7 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
           </div>
 
           <div>
-            <Label htmlFor="message" className="flex items-center space-x-2 text-blue-300">
+            <Label htmlFor="message" className="flex items-center space-x-2 text-gray-900 dark:text-blue-300 font-semibold">
               <MessageSquare className="h-4 w-4" />
               <span>Message</span>
             </Label>
@@ -145,7 +146,7 @@ export const ContactDialog = ({ children }: ContactDialogProps) => {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              className="bg-gray-800 border-gray-600 text-white mt-2"
+              className="bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white mt-2"
               rows={4}
               placeholder="Tell us about your requirements..."
             />

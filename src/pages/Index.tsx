@@ -1,4 +1,3 @@
-
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
 import { ScrollController } from '@/components/ScrollController';
@@ -8,7 +7,6 @@ import { ContentSections } from '@/components/ContentSections';
 import { Navigation } from '@/components/Navigation';
 import { Preloader } from '@/components/Preloader';
 import { Footer } from '@/components/Footer';
-import { ScrollIndicator } from '@/components/ScrollIndicator';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 
@@ -42,9 +40,6 @@ const Index = () => {
 
         {/* Navigation */}
         <Navigation />
-
-        {/* Scroll Indicator */}
-        <ScrollIndicator />
 
         {/* Scrollable Content */}
         <div className="relative z-10">
