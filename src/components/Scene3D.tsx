@@ -1,4 +1,3 @@
-
 import { useRef, useMemo, Suspense } from 'react';
 import { Environment, Stars } from '@react-three/drei';
 import { Clouds } from './Clouds';
@@ -63,7 +62,7 @@ function AnimatedStars(props) {
   );
 }
 
-// Building Component with Better Error Handling
+// Simple Building Component with Suspense
 function BuildingWithFallback() {
   return (
     <Suspense fallback={<TowerBuilding />}>
@@ -108,7 +107,7 @@ export const Scene3D = () => {
       <Environment preset="city" background={false} />
       <fog attach="fog" args={[theme === 'dark' ? '#0a1026' : '#eaf6ff', 30, 100]} />
 
-      {/* Main Building with improved error handling */}
+      {/* Main Building */}
       <BuildingWithFallback />
 
       <Clouds />

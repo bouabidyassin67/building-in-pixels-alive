@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import { useGLTF } from '@react-three/drei';
@@ -7,31 +7,30 @@ import { Html } from '@react-three/drei';
 
 export function BuildingGLB(props: any) {
   const group = useRef<Group>(null);
-  const [loadingState, setLoadingState] = useState<'loading' | 'loaded' | 'error'>('loading');
-  const [gltf, setGltf] = useState<any>(null);
-
-  useEffect(() => {
-    const loadModel = async () => {
-      try {
-        const loadedGltf = await useGLTF.preload('/scifi.glb');
-        setGltf(loadedGltf);
-        setLoadingState('loaded');
-      } catch (error) {
-        console.error("Failed to load GLB model:", error);
-        setLoadingState('error');
-      }
-    };
-
-    loadModel();
-  }, []);
+  
+  // Use useGLTF hook properly - it handles loading states internally
+  const { scene, error } = useGLTF('/scifi.glb');
 
   useFrame(() => {
-    if (group.current && loadingState === 'loaded') {
+    if (group.current && scene) {
       group.current.rotation.y += 0.001;
     }
   });
 
-  if (loadingState === 'loading') {
+  // Handle error state
+  if (error) {
+    console.error("GLB loading error:", error);
+    return (
+      <Html center>
+        <div style={{ color: 'red', fontSize: '16px' }}>
+          3D model failed to load. Using fallback.
+        </div>
+      </Html>
+    );
+  }
+
+  // Handle missing scene
+  if (!scene) {
     return (
       <Html center>
         <div style={{ color: 'white', fontSize: '16px' }}>
@@ -41,19 +40,12 @@ export function BuildingGLB(props: any) {
     );
   }
 
-  if (loadingState === 'error' || !gltf?.scene) {
-    return (
-      <Html center>
-        <div style={{ color: 'red', fontSize: '16px' }}>
-          3D model unavailable. Using fallback.
-        </div>
-      </Html>
-    );
-  }
-
   return (
     <group ref={group} {...props}>
-      <primitive object={gltf.scene.clone()} />
+      <primitive object={scene.clone()} />
     </group>
   );
 }
+
+// Preload the model
+useGLTF.preload('/scifi.glb');
