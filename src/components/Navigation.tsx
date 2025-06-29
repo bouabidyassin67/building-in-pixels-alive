@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { ContactDialog } from '@/components/ContactDialog';
+import { LoginDialog } from '@/components/LoginDialog';
+import { ResidentDashboard } from '@/components/ResidentDashboard';
 import logo from '/public/logo.png';
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -24,6 +28,21 @@ export const Navigation = () => {
       setIsMobileMenuOpen(false);
     }
   };
+
+  const handleLoginSuccess = (user: any) => {
+    setUserData(user);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserData(null);
+  };
+
+  // If logged in, show the dashboard
+  if (isLoggedIn && userData) {
+    return <ResidentDashboard userData={userData} onLogout={handleLogout} />;
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/90 backdrop-blur-md shadow-lg border-b border-blue-200 dark:border-gray-800">
@@ -72,13 +91,11 @@ export const Navigation = () => {
               </button>
             </ContactDialog>
 
-            <button
-              onClick={() => alert('Login functionality coming soon!')}
-              className="bg-blue-500 dark:bg-blue-800 text-white px-6 py-2 rounded-lg font-medium shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors mr-2"
-              style={{ minWidth: '110px' }}
-            >
-              Login
-            </button>
+            <LoginDialog onLoginSuccess={handleLoginSuccess}>
+              <button className="bg-blue-500 dark:bg-blue-800 text-white px-6 py-2 rounded-lg font-medium shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors mr-2">
+                Login
+              </button>
+            </LoginDialog>
           </div>
 
           <button 
@@ -138,13 +155,11 @@ export const Navigation = () => {
               </button>
             </ContactDialog>
 
-            <button
-              onClick={() => alert('Login functionality coming soon!')}
-              className="block w-full text-left bg-blue-500 dark:bg-blue-800 text-white px-4 py-3 rounded-lg font-medium shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
-              style={{ minWidth: '110px' }}
-            >
-              Login
-            </button>
+            <LoginDialog onLoginSuccess={handleLoginSuccess}>
+              <button className="block w-full text-left bg-blue-500 dark:bg-blue-800 text-white px-4 py-3 rounded-lg font-medium shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                Login
+              </button>
+            </LoginDialog>
           </div>
         )}
       </div>
