@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
@@ -10,7 +9,7 @@ export function BuildingGLB(props: any) {
   
   try {
     // Use useGLTF hook - it handles loading states internally
-    const { scene } = useGLTF('/scifi.glb');
+    const { scene } = useGLTF('/modern_building_002.glb');
 
     useFrame(() => {
       if (group.current && scene) {
@@ -47,4 +46,4 @@ export function BuildingGLB(props: any) {
 }
 
 // Preload the model
-useGLTF.preload('/scifi.glb');
+useGLTF.preload('/modern_building_002.glb');
