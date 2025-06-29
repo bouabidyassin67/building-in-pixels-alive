@@ -63,6 +63,15 @@ function AnimatedStars(props) {
   );
 }
 
+// Building Component with Better Error Handling
+function BuildingWithFallback() {
+  return (
+    <Suspense fallback={<TowerBuilding />}>
+      <BuildingGLB />
+    </Suspense>
+  );
+}
+
 export const Scene3D = () => {
   const { theme } = useTheme();
 
@@ -99,10 +108,8 @@ export const Scene3D = () => {
       <Environment preset="city" background={false} />
       <fog attach="fog" args={[theme === 'dark' ? '#0a1026' : '#eaf6ff', 30, 100]} />
 
-      {/* Main Building with fallback */}
-      <Suspense fallback={<TowerBuilding />}>
-        <BuildingGLB />
-      </Suspense>
+      {/* Main Building with improved error handling */}
+      <BuildingWithFallback />
 
       <Clouds />
 
