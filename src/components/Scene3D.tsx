@@ -1,6 +1,5 @@
 import { useRef, useMemo, Suspense } from 'react';
 import { Environment, Stars } from '@react-three/drei';
-import { Clouds } from './Clouds';
 import { TowerBuilding } from './TowerBuilding';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useFrame } from '@react-three/fiber';
@@ -110,7 +109,7 @@ export const Scene3D = () => {
       {/* Main Building */}
       <BuildingWithFallback />
 
-      <Clouds />
+      {/* Removed Clouds component to clear the view */}
 
       {/* Ground */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>

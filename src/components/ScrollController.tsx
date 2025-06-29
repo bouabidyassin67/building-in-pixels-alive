@@ -21,13 +21,13 @@ export const ScrollController = () => {
   useFrame(() => {
     const progress = scrollProgress.current;
     
-    // Much larger radius - 200% more zoom out (from 60 to 180)
-    const radius = 180; 
+    // Reduced radius by 50% (from 180 to 90)
+    const radius = 90; 
     const angle = progress * Math.PI * 4; // Multiple rotations around the building
     
-    // Much higher camera positions for aerial overview
-    const startHeight = 45; // Much higher starting point
-    const maxHeight = 120; // Very high max height for complete overview
+    // Lower camera positions for better building view
+    const startHeight = 25; // Lower starting point
+    const maxHeight = 60; // Lower max height
     const height = startHeight + (progress * (maxHeight - startHeight));
     
     // Calculate rotation position
@@ -39,7 +39,7 @@ export const ScrollController = () => {
     camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.05);
     
     // Always look at the building center
-    camera.lookAt(0, 15, 0); // Look at center of building
+    camera.lookAt(0, 10, 0); // Look at center of building
   });
 
   return null;
