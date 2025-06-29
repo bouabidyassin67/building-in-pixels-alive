@@ -1,4 +1,5 @@
-import { useRef, useMemo } from 'react';
+
+import { useRef, useMemo, Suspense } from 'react';
 import { Environment, Stars } from '@react-three/drei';
 import { Clouds } from './Clouds';
 import { TowerBuilding } from './TowerBuilding';
@@ -44,11 +45,9 @@ function SkyGradient({ top = '#5bb6f7', bottom = '#2986cc' }) {
 // Animated Stars
 function AnimatedStars(props) {
   const group = useRef<THREE.Group>(null);
-  // Remove dependency on scroll or camera movement, always animate
   useFrame((state) => {
     if (group.current) {
       group.current.children.forEach((star: any, i: number) => {
-        // Twinkle effect: each star has a phase offset
         const phase = i * 0.3;
         const t = state.clock.getElapsedTime() * 2 + phase;
         if (star.material && 'opacity' in star.material) {
@@ -66,7 +65,6 @@ function AnimatedStars(props) {
 
 export const Scene3D = () => {
   const { theme } = useTheme();
-  const showGLBBuilding = useRef(true);
 
   return (
     <>
@@ -89,41 +87,26 @@ export const Scene3D = () => {
       {/* Realistic Sky: Day/Night Mode */}
       {theme === 'dark' ? (
         <>
-          {/* Night gradient sky with animated twinkling stars */}
           <SkyGradient top="#1a237e" bottom="#0a1026" />
           <AnimatedStars radius={120} depth={60} />
         </>
       ) : (
         <>
-          {/* Day gradient sky */}
           <SkyGradient top="#eaf6ff" bottom="#2986cc" />
         </>
       )}
 
-      {/* Optionally, keep Environment for reflections */}
       <Environment preset="city" background={false} />
-
-      {/* Fog for depth */}
       <fog attach="fog" args={[theme === 'dark' ? '#0a1026' : '#eaf6ff', 30, 100]} />
 
-      {/* Main Building - with fallback */}
-      {showGLBBuilding.current ? (
-        <Suspense fallback={<TowerBuilding />}>
-          <BuildingGLB 
-            onError={() => {
-              console.warn("GLB model failed to load, falling back to procedural building");
-              showGLBBuilding.current = false;
-            }}
-          />
-        </Suspense>
-      ) : (
-        <TowerBuilding />
-      )}
+      {/* Main Building with fallback */}
+      <Suspense fallback={<TowerBuilding />}>
+        <BuildingGLB />
+      </Suspense>
 
-      {/* Clouds */}
       <Clouds />
 
-      {/* Ground - more realistic with subtle hills and color variation */}
+      {/* Ground */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
         <planeGeometry args={[300, 300, 64, 64]} />
         <meshStandardMaterial
@@ -133,8 +116,6 @@ export const Scene3D = () => {
           vertexColors={false}
         />
       </mesh>
-      {/* Add subtle height variation for realism */}
-      {/* Optionally, you can use a height map or noise for more detail */}
     </>
   );
 };

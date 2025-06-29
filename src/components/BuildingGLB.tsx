@@ -8,43 +8,42 @@ import { Html } from '@react-three/drei';
 export function BuildingGLB(props: any) {
   const group = useRef<Group>(null);
   
-  // Use useGLTF from drei instead of direct GLTFLoader
-  const { scene, error } = useGLTF('/scifi.glb');
+  try {
+    // Use useGLTF from drei
+    const { scene } = useGLTF('/scifi.glb');
 
-  useFrame(() => {
-    if (group.current) {
-      group.current.rotation.y += 0.001;
+    useFrame(() => {
+      if (group.current) {
+        group.current.rotation.y += 0.001;
+      }
+    });
+
+    // Handle missing scene
+    if (!scene) {
+      return (
+        <Html center>
+          <div style={{ color: 'white', fontSize: '16px' }}>
+            Loading 3D model...
+          </div>
+        </Html>
+      );
     }
-  });
 
-  // Handle loading error
-  if (error) {
+    return (
+      <group ref={group} {...props}>
+        <primitive object={scene} />
+      </group>
+    );
+  } catch (error) {
     console.error("Error loading GLB model:", error);
     return (
       <Html center>
         <div style={{ color: 'red', fontSize: '16px' }}>
-          Error loading 3D model. Check if scifi.glb exists in public folder.
+          Error loading 3D model. Using fallback building.
         </div>
       </Html>
     );
   }
-
-  // Handle missing scene
-  if (!scene) {
-    return (
-      <Html center>
-        <div style={{ color: 'white', fontSize: '16px' }}>
-          Loading 3D model...
-        </div>
-      </Html>
-    );
-  }
-
-  return (
-    <group ref={group} {...props}>
-      <primitive object={scene} />
-    </group>
-  );
 }
 
 // Preload the model
