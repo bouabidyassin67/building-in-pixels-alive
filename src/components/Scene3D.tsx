@@ -75,21 +75,41 @@ export const Scene3D = () => {
 
   return (
     <>
-      {/* Lighting Setup */}
-      <ambientLight intensity={theme === 'dark' ? 0.15 : 0.4} />
+      {/* Improved Lighting Setup */}
+      <ambientLight intensity={theme === 'dark' ? 0.3 : 0.6} />
+      
+      {/* Main directional light - softer and more balanced */}
       <directionalLight
-        position={[10, 20, 5]}
-        intensity={theme === 'dark' ? 0.5 : 1.2}
+        position={[20, 30, 10]}
+        intensity={theme === 'dark' ? 0.8 : 1.0}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
-        shadow-camera-far={50}
-        shadow-camera-left={-30}
-        shadow-camera-right={30}
-        shadow-camera-top={30}
-        shadow-camera-bottom={-30}
+        shadow-camera-far={100}
+        shadow-camera-left={-50}
+        shadow-camera-right={50}
+        shadow-camera-top={50}
+        shadow-camera-bottom={-50}
+        shadow-bias={-0.0001}
       />
-      <pointLight position={[-10, 10, -10]} intensity={0.3} color="#4f46e5" />
+      
+      {/* Fill light from opposite side to reduce harsh shadows */}
+      <directionalLight
+        position={[-15, 20, -10]}
+        intensity={theme === 'dark' ? 0.3 : 0.4}
+        color="#ffffff"
+      />
+      
+      {/* Additional soft fill light from below to brighten dark areas */}
+      <directionalLight
+        position={[0, -10, 0]}
+        intensity={theme === 'dark' ? 0.2 : 0.3}
+        color="#87CEEB"
+      />
+      
+      {/* Accent lights for visual interest */}
+      <pointLight position={[30, 15, 30]} intensity={0.2} color="#4f46e5" />
+      <pointLight position={[-30, 15, -30]} intensity={0.2} color="#06b6d4" />
 
       {/* Realistic Sky: Day/Night Mode */}
       {theme === 'dark' ? (
@@ -104,12 +124,10 @@ export const Scene3D = () => {
       )}
 
       <Environment preset="city" background={false} />
-      <fog attach="fog" args={[theme === 'dark' ? '#0a1026' : '#eaf6ff', 30, 100]} />
+      <fog attach="fog" args={[theme === 'dark' ? '#0a1026' : '#eaf6ff', 50, 150]} />
 
       {/* Main Building */}
       <BuildingWithFallback />
-
-      {/* Removed Clouds component to clear the view */}
 
       {/* Ground */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
