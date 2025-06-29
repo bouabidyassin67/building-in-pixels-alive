@@ -21,13 +21,13 @@ export const ScrollController = () => {
   useFrame(() => {
     const progress = scrollProgress.current;
     
-    // Increased radius to show full building
-    const radius = 35; // Increased from 15 to 35
+    // Much larger radius to show the full building from far away
+    const radius = 60; // Increased from 35 to 60
     const angle = progress * Math.PI * 4; // Multiple rotations around the building
     
-    // Start at entrance level (ground floor) and go up floor by floor
-    const startHeight = 5; // Slightly higher starting point
-    const maxHeight = 30; // Higher max height to see the full building
+    // Higher camera positions to get a better overview
+    const startHeight = 15; // Higher starting point
+    const maxHeight = 45; // Much higher max height
     const height = startHeight + (progress * (maxHeight - startHeight));
     
     // Calculate rotation position
@@ -38,8 +38,8 @@ export const ScrollController = () => {
     // Smooth camera movement
     camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.05);
     
-    // Always look at the building center at the current height level
-    camera.lookAt(0, height * 0.7, 0); // Look slightly lower than camera height for better view
+    // Always look at the building center
+    camera.lookAt(0, 10, 0); // Look at a fixed point on the building
   });
 
   return null;

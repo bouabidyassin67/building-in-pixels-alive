@@ -30,7 +30,7 @@ const Index = () => {
           <ThreeErrorBoundary>
             <Canvas
               shadows
-              camera={{ position: [25, 15, 25], fov: 75 }}
+              camera={{ position: [50, 25, 50], fov: 60 }}
               gl={{ antialias: true, alpha: true }}
               onCreated={({ gl }) => {
                 gl.setClearColor('#000000', 0);
