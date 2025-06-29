@@ -21,8 +21,8 @@ export const ScrollController = () => {
   useFrame(() => {
     const progress = scrollProgress.current;
     
-    // Increased radius by 10% (from 90 to 99)
-    const radius = 99; 
+    // Increased radius by another 10% (from 99 to 109)
+    const radius = 109; 
     const angle = progress * Math.PI * 4; // Multiple rotations around the building
     
     // Lower camera positions for better building view
