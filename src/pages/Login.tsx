@@ -3,8 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Building2, Mail, Lock, AlertCircle, User, Shield } from 'lucide-react';
+import { Building2, Mail, Lock, AlertCircle, User, Shield, Sun, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
+import logo from '/public/logo.png';
 
 // Mock users database
 const MOCK_USERS = [
@@ -32,13 +34,14 @@ const MOCK_USERS = [
   }
 ];
 
-const Login = () => {
+const LoginContent = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,12 +87,21 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-white via-blue-200 to-blue-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
-        <Card className="bg-white/95 dark:bg-black/95 border-gray-200 dark:border-gray-700 shadow-2xl">
+        <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-2xl">
           <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <Building2 className="h-12 w-12 text-blue-600" />
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex-1"></div>
+              <img src={logo} alt="Chermiti Logo" className="h-12 w-auto object-contain bg-transparent border-none outline-none shadow-none" />
+              <div className="flex-1 flex justify-end">
+                <button
+                  onClick={toggleTheme}
+                  className="text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-300 transition-colors p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700/50"
+                >
+                  {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </button>
+              </div>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
               Chermiti Building
@@ -187,6 +199,14 @@ const Login = () => {
         </Card>
       </div>
     </div>
+  );
+};
+
+const Login = () => {
+  return (
+    <ThemeProvider>
+      <LoginContent />
+    </ThemeProvider>
   );
 };
 

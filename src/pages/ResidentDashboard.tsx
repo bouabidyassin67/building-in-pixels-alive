@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
+import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
 import { 
   Building2, 
   User, 
@@ -20,13 +21,17 @@ import {
   Clock,
   CheckCircle,
   AlertTriangle,
-  Info
+  Info,
+  Sun,
+  Moon
 } from 'lucide-react';
+import logo from '/public/logo.png';
 
-const ResidentDashboard = () => {
+const ResidentDashboardContent = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [supportMessage, setSupportMessage] = useState('');
   const [userData, setUserData] = useState(null);
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -111,10 +116,10 @@ const ResidentDashboard = () => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-300';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-      case 'low': return 'bg-green-100 text-green-800 border-green-300';
-      default: return 'bg-gray-100 text-gray-800 border-gray-300';
+      case 'high': return 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700';
+      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700';
+      case 'low': return 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700';
+      default: return 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600';
     }
   };
 
@@ -129,26 +134,34 @@ const ResidentDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-white via-blue-200 to-blue-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-md shadow-lg border-b border-blue-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <Building2 className="h-8 w-8 text-blue-600" />
+              <img src={logo} alt="Chermiti Logo" className="h-10 w-auto md:h-12 md:w-auto object-contain p-0 bg-transparent border-none outline-none shadow-none" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Resident Dashboard</h1>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Welcome back, {userData.name}</p>
               </div>
             </div>
-            <Button 
-              onClick={handleLogout}
-              variant="outline"
-              className="flex items-center space-x-2"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Logout</span>
-            </Button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={toggleTheme}
+                className="text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-300 transition-colors p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700/50"
+              >
+                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </button>
+              <Button 
+                onClick={handleLogout}
+                variant="outline"
+                className="flex items-center space-x-2 bg-white/80 dark:bg-gray-800/80 border-blue-200 dark:border-gray-600"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -157,9 +170,9 @@ const ResidentDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
-            <Card className="bg-white dark:bg-gray-800">
+            <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-xl">
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
+                <CardTitle className="flex items-center space-x-2 text-gray-800 dark:text-white">
                   <User className="h-5 w-5" />
                   <span>Navigation</span>
                 </CardTitle>
@@ -167,7 +180,7 @@ const ResidentDashboard = () => {
               <CardContent className="space-y-2">
                 <Button
                   variant={activeTab === 'overview' ? 'default' : 'ghost'}
-                  className="w-full justify-start"
+                  className={`w-full justify-start ${activeTab === 'overview' ? 'bg-blue-600 text-white' : 'text-gray-800 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700/50'}`}
                   onClick={() => setActiveTab('overview')}
                 >
                   <Home className="h-4 w-4 mr-2" />
@@ -175,7 +188,7 @@ const ResidentDashboard = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'updates' ? 'default' : 'ghost'}
-                  className="w-full justify-start"
+                  className={`w-full justify-start ${activeTab === 'updates' ? 'bg-blue-600 text-white' : 'text-gray-800 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700/50'}`}
                   onClick={() => setActiveTab('updates')}
                 >
                   <Bell className="h-4 w-4 mr-2" />
@@ -183,7 +196,7 @@ const ResidentDashboard = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'announcements' ? 'default' : 'ghost'}
-                  className="w-full justify-start"
+                  className={`w-full justify-start ${activeTab === 'announcements' ? 'bg-blue-600 text-white' : 'text-gray-800 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700/50'}`}
                   onClick={() => setActiveTab('announcements')}
                 >
                   <Calendar className="h-4 w-4 mr-2" />
@@ -191,7 +204,7 @@ const ResidentDashboard = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'support' ? 'default' : 'ghost'}
-                  className="w-full justify-start"
+                  className={`w-full justify-start ${activeTab === 'support' ? 'bg-blue-600 text-white' : 'text-gray-800 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700/50'}`}
                   onClick={() => setActiveTab('support')}
                 >
                   <MessageSquare className="h-4 w-4 mr-2" />
@@ -201,26 +214,26 @@ const ResidentDashboard = () => {
             </Card>
 
             {/* Apartment Info */}
-            <Card className="bg-white dark:bg-gray-800 mt-6">
+            <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-xl mt-6">
               <CardHeader>
-                <CardTitle className="text-lg">Your Apartment</CardTitle>
+                <CardTitle className="text-lg text-gray-800 dark:text-white">Your Apartment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Unit:</span>
-                  <span className="font-semibold">{userData.apartmentNumber}</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{userData.apartmentNumber}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Floor:</span>
-                  <span className="font-semibold">{userData.floor}</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{userData.floor}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Status:</span>
-                  <Badge className="bg-green-100 text-green-800">{userData.status}</Badge>
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">{userData.status}</Badge>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Since:</span>
-                  <span className="font-semibold">{userData.purchaseDate}</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">{userData.purchaseDate}</span>
                 </div>
               </CardContent>
             </Card>
@@ -230,9 +243,9 @@ const ResidentDashboard = () => {
           <div className="lg:col-span-3">
             {activeTab === 'overview' && (
               <div className="space-y-6">
-                <Card className="bg-white dark:bg-gray-800">
+                <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-xl">
                   <CardHeader>
-                    <CardTitle>Welcome to Your Dashboard</CardTitle>
+                    <CardTitle className="text-gray-900 dark:text-white">Welcome to Your Dashboard</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
@@ -242,17 +255,17 @@ const ResidentDashboard = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
                         <Bell className="h-8 w-8 text-blue-600 mb-2" />
-                        <h3 className="font-semibold">Latest Updates</h3>
+                        <h3 className="font-semibold text-gray-900 dark:text-white">Latest Updates</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">3 new updates available</p>
                       </div>
                       <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
                         <Calendar className="h-8 w-8 text-green-600 mb-2" />
-                        <h3 className="font-semibold">Announcements</h3>
+                        <h3 className="font-semibold text-gray-900 dark:text-white">Announcements</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">2 important notices</p>
                       </div>
                       <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
                         <MessageSquare className="h-8 w-8 text-purple-600 mb-2" />
-                        <h3 className="font-semibold">Support</h3>
+                        <h3 className="font-semibold text-gray-900 dark:text-white">Support</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400">24/7 assistance available</p>
                       </div>
                     </div>
@@ -263,9 +276,9 @@ const ResidentDashboard = () => {
 
             {activeTab === 'updates' && (
               <div className="space-y-6">
-                <Card className="bg-white dark:bg-gray-800">
+                <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-xl">
                   <CardHeader>
-                    <CardTitle>Apartment Updates</CardTitle>
+                    <CardTitle className="text-gray-900 dark:text-white">Apartment Updates</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -285,7 +298,7 @@ const ResidentDashboard = () => {
                                 </div>
                               </div>
                             </div>
-                            <Badge className={update.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}>
+                            <Badge className={update.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'}>
                               {update.status}
                             </Badge>
                           </div>
@@ -299,9 +312,9 @@ const ResidentDashboard = () => {
 
             {activeTab === 'announcements' && (
               <div className="space-y-6">
-                <Card className="bg-white dark:bg-gray-800">
+                <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-xl">
                   <CardHeader>
-                    <CardTitle>Building Announcements</CardTitle>
+                    <CardTitle className="text-gray-900 dark:text-white">Building Announcements</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -330,32 +343,32 @@ const ResidentDashboard = () => {
 
             {activeTab === 'support' && (
               <div className="space-y-6">
-                <Card className="bg-white dark:bg-gray-800">
+                <Card className="bg-white/80 dark:bg-black/80 backdrop-blur-lg border-blue-200 dark:border-gray-600 shadow-xl">
                   <CardHeader>
-                    <CardTitle>Contact Support</CardTitle>
+                    <CardTitle className="text-gray-900 dark:text-white">Contact Support</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div className="space-y-4">
-                        <h3 className="font-semibold">Quick Contact</h3>
+                        <h3 className="font-semibold text-gray-900 dark:text-white">Quick Contact</h3>
                         <div className="space-y-3">
                           <div className="flex items-center space-x-3">
                             <Phone className="h-4 w-4 text-blue-600" />
-                            <span className="text-sm">24/7 Concierge: +1 (555) 123-4567</span>
+                            <span className="text-sm text-gray-800 dark:text-gray-300">24/7 Concierge: +1 (555) 123-4567</span>
                           </div>
                           <div className="flex items-center space-x-3">
                             <Mail className="h-4 w-4 text-blue-600" />
-                            <span className="text-sm">support@chermitibuilding.com</span>
+                            <span className="text-sm text-gray-800 dark:text-gray-300">support@chermitibuilding.com</span>
                           </div>
                           <div className="flex items-center space-x-3">
                             <AlertTriangle className="h-4 w-4 text-red-600" />
-                            <span className="text-sm">Emergency: +1 (555) 911-HELP</span>
+                            <span className="text-sm text-gray-800 dark:text-gray-300">Emergency: +1 (555) 911-HELP</span>
                           </div>
                         </div>
                       </div>
                       <div className="space-y-4">
-                        <h3 className="font-semibold">Support Hours</h3>
-                        <div className="text-sm space-y-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white">Support Hours</h3>
+                        <div className="text-sm space-y-1 text-gray-800 dark:text-gray-300">
                           <p>Concierge: 24/7</p>
                           <p>Maintenance: Mon-Fri 8AM-6PM</p>
                           <p>Management: Mon-Fri 9AM-5PM</p>
@@ -366,25 +379,25 @@ const ResidentDashboard = () => {
 
                     <form onSubmit={handleSupportSubmit} className="space-y-4">
                       <div>
-                        <Label htmlFor="subject">Subject</Label>
+                        <Label htmlFor="subject" className="text-gray-900 dark:text-blue-300 font-semibold">Subject</Label>
                         <Input
                           id="subject"
                           placeholder="Brief description of your request"
-                          className="mt-1"
+                          className="bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white mt-1"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="message">Message</Label>
+                        <Label htmlFor="message" className="text-gray-900 dark:text-blue-300 font-semibold">Message</Label>
                         <Textarea
                           id="message"
                           value={supportMessage}
                           onChange={(e) => setSupportMessage(e.target.value)}
                           placeholder="Please describe your request or issue in detail..."
                           rows={4}
-                          className="mt-1"
+                          className="bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white mt-1"
                         />
                       </div>
-                      <Button type="submit" className="w-full">
+                      <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                         Submit Support Request
                       </Button>
                     </form>
@@ -396,6 +409,14 @@ const ResidentDashboard = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const ResidentDashboard = () => {
+  return (
+    <ThemeProvider>
+      <ResidentDashboardContent />
+    </ThemeProvider>
   );
 };
 
