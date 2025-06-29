@@ -21,13 +21,13 @@ export const ScrollController = () => {
   useFrame(() => {
     const progress = scrollProgress.current;
     
-    // Increased radius by another 10% (from 99 to 109)
+    // Keep the same radius
     const radius = 109; 
     const angle = progress * Math.PI * 4; // Multiple rotations around the building
     
-    // Lower camera positions for better building view
-    const startHeight = 25; // Lower starting point
-    const maxHeight = 60; // Lower max height
+    // Much lower camera positions to look UP at the building
+    const startHeight = 5; // Start very low
+    const maxHeight = 25; // End at mid-height of building
     const height = startHeight + (progress * (maxHeight - startHeight));
     
     // Calculate rotation position
@@ -38,8 +38,9 @@ export const ScrollController = () => {
     // Smooth camera movement
     camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.05);
     
-    // Always look at the building center
-    camera.lookAt(0, 10, 0); // Look at center of building
+    // Look UP at different heights of the building based on scroll
+    const buildingLookHeight = 15 + (progress * 35); // Look from bottom to top of building
+    camera.lookAt(0, buildingLookHeight, 0);
   });
 
   return null;
